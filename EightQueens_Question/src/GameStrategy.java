@@ -1,6 +1,7 @@
 public class GameStrategy {
 	private boolean placedQueens[][] = new boolean[8][8];
 	private int numQueens = 0;
+	static int[][] blocked = new int[8][8];
 
 	private int getColumn(int cellId) {
 		// WRITE YOUR LOGIC HERE...................................		
@@ -48,31 +49,48 @@ public class GameStrategy {
 	}
 
 	public boolean isValidPosition(int cellId) {
-		boolean isValid = true;
+        boolean isValid = true;
 
-		if(numQueens == 8) throw new GameOverException();	// just return out of the method
+        if(numQueens == 8) throw new GameOverException();    // just return out of the method
 
-		// the game is still on, so let us continue...
-		
-		int col = getColumn(cellId);
-		
-		int row = getRow(cellId);
-		
-//		int i, j;
-//		for (i = 0; i < col; i++) {
-//			if (board[row][i] == 1)
-//				return false;
-//		}
-//		for (i = row, j = col; i >= 0 && j >= 0; i--, j--) {
-//			if (board[i][j] == 1)
-//				return false;
-//		}
-//		for (i = row, j = col; j >= 0 && i < N; i++, j--) {
-//			if (board[i][j] == 1)
-//				return false;
-//		}
-		return isValid;
-	}
+        // the game is still on, so let us continue...
+
+        int col = getColumn(cellId);
+        int row = getRow(cellId);
+
+        if(blocked[row][col] == 0) {
+            blocked[row][col] = 1;
+            for(int i=0; i<8; i++) {
+                blocked[row][i] = 1;
+                blocked[i][col] = 1;
+            }
+            int i = row;
+            int j = col;
+            while(i<8 && j<8) {
+                blocked[i++][j++] = 1;
+            }
+            i = row;
+            j = col;
+            while(i>=0 && j>=0) {
+                blocked[i--][j--] = 1;
+            }
+            i = row;
+            j = col;
+            while(i>=0 && j<8) {
+                blocked[i--][j++] = 1;
+            }
+            i = row;
+            j = col;
+            while(i<8 && j>=0) {
+                blocked[i++][j--] = 1;
+            }
+
+            return isValid;
+        }
+        else {
+            return !isValid;
+        }
+    }
 }
 
 
