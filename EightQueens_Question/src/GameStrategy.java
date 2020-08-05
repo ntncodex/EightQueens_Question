@@ -4,7 +4,8 @@ public class GameStrategy {
 	static int[][] blocked = new int[8][8];
 
 	private int getColumn(int cellId) {
-		// WRITE YOUR LOGIC HERE...................................		
+		// WRITE YOUR LOGIC HERE...................................
+		// rand		
 
 		int col= 0;
 		if(cellId%8==0)
